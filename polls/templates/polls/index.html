@@ -1,0 +1,37 @@
+<!-- the 'load static' template tag generates the absolute URL of static files. -->
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+
+
+
+<h2>Hi! Welcome to the polls page!</h2>
+
+
+<h3>Here are my polls:</h3>
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+
+        <!-- <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li> -->
+
+        <!-- the line above has the url hardcoded in, we can use 'url' template tag below and tell the template
+        to look for the url with 'detail' as the 'name' value and follow that path -->
+
+
+        <!-- note: because this is a templating language, we change the { to (  below so it wont run!  -->
+        <!-- <li><a href="(% url 'detail' question.id %)">{{ question.question_text }}</a></li> -->
+
+        <!-- we added namespacing in our url.conf so that we can tell multiple 'detail' pages apart,
+        we must now add the coresponding 'app' name to our link so that it finds the correct url
+        name i.e. - 'polls:detail'  -->
+
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+
+
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
